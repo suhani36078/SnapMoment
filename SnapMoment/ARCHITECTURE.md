@@ -29,22 +29,23 @@
 | XAMPP | Local server | Easy local development and testing |
 
 ## System Architecture Diagram
+
+## System Architecture Diagram
+
+```mermaid
 flowchart TD
     A[Visitor] --> B[PHP Website]
-
     B --> C[Visitor Registration]
     B --> D[Photo Upload]
-
     C --> E[(MySQL Database)]
     D --> E
     D --> F[Uploads Folder]
-
     E --> G[Admin Panel]
     G --> H[Approve or Reject Photos]
-
     H --> E
     E --> I[Approved Gallery]
     I --> J[Public Slideshow]
+```
 
 ## Database Design
 
