@@ -1,0 +1,7 @@
+<?php
+require __DIR__.'/auth.php';
+$count=(int)$pdo->query('SELECT COUNT(*) FROM admins')->fetchColumn();
+if($count===0){$hash=password_hash('admin123',PASSWORD_DEFAULT);$st=$pdo->prepare('INSERT INTO admins(username,password_hash) VALUES(?,?)');$st->execute(['admin',$hash]);}
+$error='';
+if($_SERVER['REQUEST_METHOD']==='POST'){$u=trim($_POST['username']??'');$p=$_POST['password']??'';$st=$pdo->prepare('SELECT * FROM admins WHERE username=?');$st->execute([$u]);$a=$st->fetch();if($a&&password_verify($p,$a['password_hash'])){session_regenerate_id(true);$_SESSION['snap_admin']=$a['username'];header('Location: index.php');exit;} $error='Incorrect username or password.';}
+?><!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Login · SnapMoment</title><link rel="stylesheet" href="../assets/css/style.css"></head><body class="admin-body"><form class="admin-login" method="post"><a class="brand" href="../index.php">✳ snap<span>moment</span></a><h1>Admin sign in</h1><p>Manage visitor uploads and approve photos.</p><?php if($error):?><p class="error"><?=htmlspecialchars($error)?></p><?php endif;?><label>Username</label><input name="username" required value="admin"><label>Password</label><input name="password" type="password" required><button class="primary full">Sign in →</button><small>First-time default: admin / admin123. Change it after setup.</small></form></body></html>

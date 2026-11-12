@@ -1,0 +1,12 @@
+# Local database credentials
+/config/db.php
+
+# Visitor uploads and generated data
+/uploads/photos/*
+!/uploads/photos/index.html
+
+# Local/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,5 @@
+const root=document.getElementById('slideshow');let photos=[],index=0,timer=null;
+async function load(){try{const r=await fetch('api/gallery.php?'+Date.now());const d=await r.json();if(!d.success)return;const ids=d.photos.map(p=>p.id).join(',');if(ids!==photos.map(p=>p.id).join(',')){photos=d.photos;index=0;render();}}catch(e){}}
+function render(){if(!photos.length){root.innerHTML='<div class="display-empty"><div>✳</div><h1>Memories are on their way.</h1><p>Approved event photos will appear here automatically.</p></div>';return;}const p=photos[index%photos.length];root.innerHTML=`<figure class="slide"><img src="${p.photo_path.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}" alt="Event memory"><figcaption>${escapeHtml(p.name)} <span>·</span> A moment shared</figcaption></figure><div class="slide-count">${index+1} / ${photos.length}</div>`;}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+setInterval(()=>{if(photos.length){index=(index+1)%photos.length;render();}},6000);setInterval(load,10000);load();
