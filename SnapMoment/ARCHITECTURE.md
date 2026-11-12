@@ -28,7 +28,7 @@
 | MySQL | Database | Stores visitor and photo information |
 | XAMPP | Local server | Easy local development and testing |
 
-## System Architecture Diagram
+
 
 ## System Architecture Diagram
 
