@@ -1,81 +1,76 @@
 # SnapMoment – AI Interaction Log
 
-This log records key AI-assisted decisions and development interactions for the project. It includes the prompts/tasks, the AI's contribution, and examples of issues that were identified and corrected. The descriptions are based on the development conversation; they are not a substitute for actual source-control history.
+This file explains how I used AI while making my SnapMoment project. I have mentioned the main changes I made with AI's help, along with some mistakes that happened during development and how I fixed them.
 
 ## Key AI Interactions
 
-### 1. Initial project planning
-**Prompt/task:** Help plan a visitor photo slideshow website where visitors enter their name, upload photos, and approved photos are displayed on a screen.
+### 1. Planning the Website
+**What I asked:** Help me plan a website where visitors can enter their name, upload photos, and see approved photos on a slideshow.
 
-**AI contribution:** Helped break the project into visitor, upload, admin moderation, gallery, and slideshow modules. Suggested documenting assumptions such as visitor identification, consent, file validation, upload limits, and simultaneous uploads.
+**How AI helped:** It suggested different sections like visitor registration, photo upload, admin panel, gallery, and slideshow.
 
-**Outcome:** The project scope was organised into manageable modules.
+**What I did:** I used these ideas to plan my website step by step.
 
-### 2. Choosing the visitor identification method
-**Prompt/task:** Simplify visitor registration and avoid requiring an email address.
+### 2. Visitor Registration
+**What I asked:** I wanted visitors to register without entering their email address.
 
-**AI contribution:** Helped use name-only registration with a generated Visitor ID, rather than requiring email.
+**How AI helped:** It suggested using the visitor's name and giving them a unique Visitor ID.
 
-**Outcome:** The visitor flow asks for a name and provides a Visitor ID.
+**What I did:** I added the Visitor ID feature so visitors can use it again to access their photos.
 
-### 3. Returning visitor support
-**Prompt/task:** Make it possible for a returning visitor to access their previous photos.
+### 3. Returning Visitors
+**What I asked:** I wanted returning visitors to see their previously uploaded photos.
 
-**AI contribution:** Helped add browser-cookie recognition and an optional Visitor ID field for recognition from another browser/device. A photo-history endpoint was added to retrieve the visitor's previous uploads and statuses.
+**How AI helped:** It suggested using cookies for the same browser and a Visitor ID for another browser or device.
 
-**Outcome:** Returning visitor support uses the visitor cookie on the same browser, or name plus Visitor ID on another browser/device.
+**What I did:** I added this feature so visitors can check their previous photos and their status.
 
-### 4. Admin photo moderation
-**Prompt/task:** Ensure visitor photos do not appear publicly until an admin reviews them.
+### 4. Admin Photo Approval
+**What I asked:** I did not want uploaded photos to appear directly on the public website.
 
-**AI contribution:** Helped implement pending, approved, and rejected statuses in the database and admin interface.
+**How AI helped:** It suggested three photo statuses: Pending, Approved, and Rejected.
 
-**Outcome:** The public gallery API selects approved photos only.
+**What I did:** I added the approval system. Now only approved photos appear in the public gallery and slideshow.
 
-### 5. Improve the homepage gallery
-**Prompt/task:** Add a modern 3D hover carousel to the existing three-photo homepage section without redesigning the website or changing the PHP/MySQL functionality.
+### 5. Making the Gallery Better
+**What I asked:** I wanted to make the three-photo section on my homepage more attractive and interactive.
 
-**AI contribution:** Suggested a horizontal image carousel with hover zoom, lift, tilt, perspective movement, automatic movement while hovered, and touch support.
+**How AI helped:** It suggested a 3D carousel with hover effects, zoom, movement, and touch support.
 
-**Outcome:** The existing approved gallery photos are used as carousel content.
+**What I did:** I added the carousel using the existing approved photos without changing the main website design.
 
-### 6. Add permanent deletion for rejected photos
-**Prompt/task:** Add a way for the administrator to permanently delete rejected photos.
+### 6. Deleting Rejected Photos
+**What I asked:** I wanted the admin to permanently delete rejected photos.
 
-**AI contribution:** Helped add a confirmation step, a session-bound CSRF token, a check that the photo is still rejected, and deletion of the associated image file and database record.
+**How AI helped:** It suggested adding a delete option with a confirmation message and security checks.
 
-**Outcome:** The admin panel offers permanent deletion only for rejected photos.
+**What I did:** I added the delete option in the admin panel. It deletes both the photo record and its image file.
 
-### 7. Prepare repository documentation
-**Prompt/task:** Prepare `README.md`, `ASSUMPTIONS.md`, and `AI_LOG.md` for the project repository.
+### 7. Project Documentation
+**What I asked:** I needed project documentation for my GitHub repository.
 
-**AI contribution:** Drafted setup instructions, project features, technical assumptions, and a record of important AI-assisted interactions and corrections.
+**How AI helped:** It helped me prepare README.md, ASSUMPTIONS.md, AI_LOG.md, ARCHITECTURE.md, and TESTING.md.
 
-**Outcome:** These three Markdown files are prepared for review and inclusion in the GitHub repository.
+**What I did:** I added these files to my repository to explain the project, its features, and how it works.
 
-## AI Mistakes, Detection, and Corrections
+## Mistakes Made During Development
 
-### Mistake 1: Carousel duplicates appeared in a second row
-**What happened:** The first carousel implementation displayed repeated images below the original gallery row. The cloned carousel images were being affected by the existing gallery grid layout instead of staying in one horizontal track.
+### Mistake 1: Duplicate Photos in the Carousel
 
-**How it was noticed:** The developer opened the homepage in the browser and shared a screenshot showing the original images plus repeated images in a second row.
+**What happened:** When I first added the 3D carousel, some photos appeared again in a second row.
 
-**Correction:** The carousel layout was adjusted so the images are handled in a single horizontal track with the carousel viewport controlling overflow. The developer tested the corrected version and confirmed that the duplicate-row issue was fixed.
+**How I noticed it:** I opened the website and saw that the photos were repeating below the main row. I also shared a screenshot with AI.
 
-**Lesson learned:** An animation or carousel must be checked against the existing page layout; adding JavaScript clones alone is not enough if the original CSS grid rules still apply.
+**How I fixed it:** AI helped me change the carousel layout so that all photos stayed in one horizontal row. I checked it again in the browser, and the issue was fixed.
 
-### Mistake 2: Returning visitor support was initially incomplete
-**What happened:** Cookie-based recognition worked for the same browser, but that alone did not let a visitor retrieve their profile from a different browser/device.
+### Mistake 2: Returning Visitor Feature Was Incomplete
 
-**How it was noticed:** The project requirement that returning visitors should be able to access their previous photos was reviewed, including the cross-device use case.
+**What happened:** Initially, returning visitors could be recognised only through the same browser. They could not easily access their photos from another device.
 
-**Correction:** An optional Visitor ID field was added. The identify endpoint can look up the visitor using the Visitor ID and matching name when there is no recognised visitor cookie. A photo-history endpoint displays the visitor's previous uploads and their moderation statuses.
+**How I noticed it:** I realised that the feature would not work properly if someone opened the website on a different browser or device.
 
-**Lesson learned:** A feature should be checked against all intended user scenarios, not only the easiest scenario (in this case, returning on the same browser).
+**How I fixed it:** I added the Visitor ID option along with the visitor's name. This allows visitors to access their previous photo history from another device.
 
-## Verification Notes
+## My Experience with AI
 
-- The developer reported that website testing was completed.
-- The carousel duplicate-row issue was specifically observed in a browser screenshot and then reported fixed by the developer.
-- The documents do not claim that every possible browser, hosting environment, file size, or simultaneous-upload scenario has been independently tested by the AI.
-- For the final submission, add the actual test date, browser, test data, expected result, and observed result to a separate testing report if required by the assignment.
+AI helped me understand problems and make changes in my project, but not every suggestion worked correctly the first time. I had to check the website in the browser, share screenshots, and ask for corrections. This helped me understand that AI is useful during development, but we should always test the changes ourselves.
